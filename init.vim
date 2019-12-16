@@ -19,7 +19,6 @@ set ttimeoutlen=0
 set re=1
 set lazyredraw
 set synmaxcol=128
-syntax sync minlines=256
 " set backspace=indent,eol,start
 set mouse=a
 set laststatus=2        "始终显示状态栏
@@ -31,8 +30,17 @@ set autoread            " 文件在 vim 之外修改过，自动重新读入
 set autowrite           " 设置自动保存
 set confirm             " 在处理未保存或只读文件的时候，弹出确认
 set signcolumn=yes      " 防止coc错误标记导致左边栏忽宽忽窄
-filetype on
-syntax on
+
+if has('autocmd')
+	filetype plugin indent on
+endif
+
+if has('syntax')  
+	syntax enable 
+	syntax on 
+        syntax sync minlines=256
+endif
+
 autocmd FileType json syntax match Comment +\/\/.\+$+   "高亮json文件
 " 打开文件自动定位到最后编辑的位置
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
@@ -53,7 +61,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Some key files location
 set tags="C://WINDOWS//system32//ctags.exe"
-" let g:python3_host_skip_check=1
+let g:python3_host_skip_check=1
 let g:python3_host_prog="C://Users//flamech//AppData//Local//Programs//Python//Python37//python"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -70,7 +78,7 @@ call plug#begin('$VIM/plugged')
     Plug 'taigacute/spaceline.vim'
     Plug 'Yggdroot/indentLine'          "缩进线
     Plug 'kien/rainbow_parentheses.vim' "彩虹括号
-    " Plug 'ryanoasis/vim-devicons'
+    Plug 'ryanoasis/vim-devicons'
     
     " Useful
     Plug 'jiangmiao/auto-pairs'
@@ -79,9 +87,10 @@ call plug#begin('$VIM/plugged')
     Plug 'scrooloose/nerdcommenter'     "快速注释插件
     Plug 'godlygeek/tabular' " type ;Tabularize /= to align the =
     Plug 'tpope/vim-surround'
-    Plug 'easymotion/vim-easymotion'
+"     Plug 'easymotion/vim-easymotion'
     Plug 'junegunn/vim-slash'
     Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat'  }
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " Plug 'sillybun/vim-repl'
     " Plug 'Lenovsky/nuake'
     " Plug 'SirVer/ultisnips'
@@ -91,10 +100,9 @@ call plug#begin('$VIM/plugged')
     " Plug 'liuchengxu/vista.vim'
 
     " Python
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
-    Plug 'skywind3000/asyncrun.vim'
-    Plug 'tweekmonster/braceless.vim'
+    Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins','for': 'python' }
+    Plug 'skywind3000/asyncrun.vim', {'for': 'python'}
+    Plug 'tweekmonster/braceless.vim', {'for': 'python'}
     
     " Markdown
     " Plug 'plasticboy/vim-markdown'
@@ -190,9 +198,16 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" 复制当前选中到系统剪切板
+vmap <leader><leader>y "+y
+
 " Indentation
 nnoremap < <<
 nnoremap > >>
+
+" Shortcut for Moving in INSERT mode
+imap <C-A> <Home>
+imap <C-E> <End>
 
 " tabular
 nnoremap <leader>= :Tab /=<cr>
@@ -338,12 +353,12 @@ let g:python_highlight_all = 1
 "     \   . ',__pycache__,.sass-cache,*.egg-info,.DS_Store,*.pyc,*.swp'
 "     \ })
 
-autocmd FileType defx call s:defx_mappings()
+" autocmd FileType defx call s:defx_mappings()
 
 """"""""""""""""
 "  easymotion  "
 """"""""""""""""
-map <Leader> <Plug>(easymotion-prefix)
+" map <Leader> <Plug>(easymotion-prefix)
 
 """""""""""
 "  Nuake  "
@@ -371,15 +386,7 @@ let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 "             \}
 
 " Startify
-" let g:startify_lists = [
-"         \ { 'type': 'files',     'header': ['   MRU']            },
-"         \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-"         \ { 'type': 'sessions',  'header': ['   Sessions']       },
-"         \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-"         \ { 'type': 'commands',  'header': ['   Commands']       },
-"         \ ]
 let g:startify_bookmarks = [{'E': '$HOME\AppData\Local\nvim\init.vim'},{'F': '$HOME\AppData\Local\nvim\ginit.vim'}]
 
 " prepare-code
 let g:prepare_code_plugin_path = expand($VIM . "/plugged/prepare-code")
-
