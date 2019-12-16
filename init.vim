@@ -41,7 +41,6 @@ if has('syntax')
         syntax sync minlines=256
 endif
 
-autocmd FileType json syntax match Comment +\/\/.\+$+   "高亮json文件
 " 打开文件自动定位到最后编辑的位置
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
 
@@ -273,21 +272,24 @@ tnoremap <silent> <F12>           <C-\><C-n>:FloatermToggle<CR>
 
 " Braceless
 autocmd FileType python BracelessEnable +indent
-
 let g:python_highlight_all = 1
 
+" LeaderF
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline"  }
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
-"""""""""
-"  FZF  "
-"""""""""
-" nnoremap <C-F>      :FZF<CR>
-" nnoremap <Leader>ff :Files<CR>
-" nnoremap <Leader>fb :Buffers<CR>
-" nnoremap <Leader>fc :Colors<CR>
-" nnoremap <Leader>fh :History<CR>
-" nnoremap <Leader>fl :Lines<CR>
-" nnoremap <Leader>fm :Commands<CR>
+" Startify
+let g:startify_bookmarks = [{'E': '$HOME\AppData\Local\nvim\init.vim'},{'F': '$HOME\AppData\Local\nvim\ginit.vim'}]
 
+" prepare-code
+let g:prepare_code_plugin_path = expand($VIM . "/plugged/prepare-code")
+
+"""""""""""""""
+"  vim-slash  "
+"""""""""""""""
+noremap <plug>(slash-after) zz
 
 """""""""""
 "  Vista  "
@@ -307,15 +309,12 @@ let g:python_highlight_all = 1
 "             \   "variable": "\uf71b",
 "             \  }
 
-
-
 """""""""""""""
 "  Ultisnips  "
 """""""""""""""
 " let g:UltiSnipsExpandTrigger="<c-j>"
 " let g:UltiSnipsJumpForwardTrigger="<c-f>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-
 
 """"""""""""""""""""""
 "  Markdown-preview  "
@@ -367,16 +366,6 @@ let g:python_highlight_all = 1
 " inoremap <F12> <C-\><C-n>:Nuake<CR>
 " tnoremap <F12> <C-\><C-n>:Nuake<CR>
 
-"""""""""""""""
-"  vim-slash  "
-"""""""""""""""
-noremap <plug>(slash-after) zz
-
-" LeaderF
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewInPopup = 1
-let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline"  }
-let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
 " Repl
 " nnoremap <leader>r :REPLToggle<Cr>
@@ -384,9 +373,3 @@ let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 "             \'python': 'ipython',
 "             \'default': 'pwsh'
 "             \}
-
-" Startify
-let g:startify_bookmarks = [{'E': '$HOME\AppData\Local\nvim\init.vim'},{'F': '$HOME\AppData\Local\nvim\ginit.vim'}]
-
-" prepare-code
-let g:prepare_code_plugin_path = expand($VIM . "/plugged/prepare-code")
