@@ -96,7 +96,6 @@ call plug#begin('$VIM/plugged')
     " Plug 'honza/vim-snippets'
     " Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins'  }
     " Plug 'kristijanhusak/defx-icons'
-    " Plug 'liuchengxu/vista.vim'
 
     " Python
     Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins','for': 'python' }
@@ -261,7 +260,6 @@ function! CocTimerStart(timer)
     endfunction
     call timer_start(500,'CocTimerStart',{'repeat':1})
 
-
 """"""""""""""
 "  floaterm  "
 """"""""""""""
@@ -290,24 +288,6 @@ let g:prepare_code_plugin_path = expand($VIM . "/plugged/prepare-code")
 "  vim-slash  "
 """""""""""""""
 noremap <plug>(slash-after) zz
-
-"""""""""""
-"  Vista  "
-"""""""""""
-" function! NearestMethodOrFunction() abort
-"       return get(b:, 'vista_nearest_method_or_function', '')
-" endfunction
-" set statusline+=%{NearestMethodOrFunction()}
-" autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
-" noremap  <silent> <F11>           :Vista<CR>
-" let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
-" let g:vista_default_executive = 'ctags'
-" let g:vista_fzf_preview = ['right:50%']
-" let g:vista#renderer#enable_icon = 1
-" let g:vista#renderer#icons = {
-"             \   "function": "\uf794",
-"             \   "variable": "\uf71b",
-"             \  }
 
 """""""""""""""
 "  Ultisnips  "
