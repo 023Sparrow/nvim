@@ -53,7 +53,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Some key files location
 set tags="C://WINDOWS//system32//ctags.exe"
-let g:python3_host_skip_check=1
+" let g:python3_host_skip_check=1
 let g:python3_host_prog="C://Users//flamech//AppData//Local//Programs//Python//Python37//python"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
