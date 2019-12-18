@@ -38,7 +38,7 @@ endif
 if has('syntax')  
 	syntax enable 
 	syntax on 
-        syntax sync minlines=256
+    syntax sync minlines=256
 endif
 
 " 打开文件自动定位到最后编辑的位置
@@ -59,7 +59,7 @@ set updatetime=300
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Some key files location
-set tags="C://WINDOWS//system32//ctags.exe"
+" set tags="C://WINDOWS//system32//ctags.exe"
 let g:python3_host_skip_check=1
 let g:python3_host_prog="C://Users//flamech//AppData//Local//Programs//Python//Python37//python"
 
@@ -86,12 +86,13 @@ call plug#begin('$VIM/plugged')
     Plug 'scrooloose/nerdcommenter'     "快速注释插件
     Plug 'godlygeek/tabular' " type ;Tabularize /= to align the =
     Plug 'tpope/vim-surround'
-"     Plug 'easymotion/vim-easymotion'
-    Plug 'junegunn/vim-slash'
+    " Plug 'easymotion/vim-easymotion'
+    " Plug 'junegunn/vim-slash'
     Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat'  }
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    " Plug 'voldikss/vim-floaterm'
     " Plug 'sillybun/vim-repl'
-    " Plug 'Lenovsky/nuake'
+    Plug 'Lenovsky/nuake'
     " Plug 'SirVer/ultisnips'
     " Plug 'honza/vim-snippets'
     " Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins'  }
@@ -140,6 +141,8 @@ func! CompileRunGcc()
           endif
 
 endfunc
+" 任务结束时候响铃提醒
+let g:asyncrun_bell = 1
 
 "eleline状态栏
 "启用powerline字体
@@ -206,6 +209,7 @@ nnoremap > >>
 " Shortcut for Moving in INSERT mode
 imap <C-A> <Home>
 imap <C-E> <End>
+inoremap <c-d> <del>
 
 " tabular
 nnoremap <leader>= :Tab /=<cr>
@@ -242,6 +246,7 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 " Make <tab> used for trigger completion, completion confirm, snippet expand
 " and jump like VSCode.
 inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
@@ -264,9 +269,9 @@ function! CocTimerStart(timer)
 "  floaterm  "
 """"""""""""""
 " F12在当前文件目录下呼出终端
-noremap  <silent> <F12>           :FloatermToggle<CR>i
-noremap! <silent> <F12>           <Esc>:FloatermToggle<CR>i
-tnoremap <silent> <F12>           <C-\><C-n>:FloatermToggle<CR>
+" let g:floaterm_keymap_toggle = '<F12>'
+" let g:floaterm_background='black'
+" let g:floaterm_position='center'
 
 " Braceless
 autocmd FileType python BracelessEnable +indent
@@ -287,14 +292,8 @@ let g:prepare_code_plugin_path = expand($VIM . "/plugged/prepare-code")
 """""""""""""""
 "  vim-slash  "
 """""""""""""""
-noremap <plug>(slash-after) zz
+" noremap <plug>(slash-after) zz
 
-"""""""""""""""
-"  Ultisnips  "
-"""""""""""""""
-" let g:UltiSnipsExpandTrigger="<c-j>"
-" let g:UltiSnipsJumpForwardTrigger="<c-f>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 """"""""""""""""""""""
 "  Markdown-preview  "
@@ -342,9 +341,9 @@ noremap <plug>(slash-after) zz
 """""""""""
 "  Nuake  "
 """""""""""
-" nnoremap <F12> :Nuake<CR>
-" inoremap <F12> <C-\><C-n>:Nuake<CR>
-" tnoremap <F12> <C-\><C-n>:Nuake<CR>
+nnoremap <F12> :Nuake<CR>
+inoremap <F12> <C-\><C-n>:Nuake<CR>
+tnoremap <F12> <C-\><C-n>:Nuake<CR>
 
 
 " Repl
