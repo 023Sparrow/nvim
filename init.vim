@@ -3,9 +3,8 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set <LEADER> as <SPACE>
 let mapleader = " "
-set termguicolors "设置真彩
+set autochdir
 set nu
-set relativenumber "相对行号
 set hlsearch
 set autoindent
 set smartindent
@@ -18,6 +17,7 @@ set whichwrap+=<,>,h,l
 set ttimeoutlen=0
 set re=1
 set lazyredraw
+set regexpengine=1
 set synmaxcol=128
 " set backspace=indent,eol,start
 set mouse=a
@@ -73,21 +73,20 @@ call plug#begin('$VIM/plugged')
     " Plug 'morhetz/gruvbox'
     " Plug 'rakr/vim-one'
     Plug 'junegunn/seoul256.vim'
-    " Plug 'liuchengxu/eleline.vim'       "vim状态栏
-    Plug 'taigacute/spaceline.vim'
+    Plug 'liuchengxu/eleline.vim'       "vim状态栏
     Plug 'Yggdroot/indentLine'          "缩进线
-    Plug 'kien/rainbow_parentheses.vim' "彩虹括号
+    Plug 'junegunn/rainbow_parentheses.vim'
     Plug 'ryanoasis/vim-devicons'
+    Plug 'ntpeters/vim-better-whitespace'
     
     " Useful
     Plug 'jiangmiao/auto-pairs'
     Plug 'mhinz/vim-startify'           "startify page
     Plug 'chxuan/prepare-code'          "新建文件时，生成预定义代码片段
     Plug 'scrooloose/nerdcommenter'     "快速注释插件
-    Plug 'godlygeek/tabular' " type ;Tabularize /= to align the =
+    Plug 'junegunn/vim-easy-align'
     Plug 'tpope/vim-surround'
     " Plug 'easymotion/vim-easymotion'
-    " Plug 'junegunn/vim-slash'
     Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat'  }
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " Plug 'voldikss/vim-floaterm'
@@ -102,83 +101,15 @@ call plug#begin('$VIM/plugged')
     Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins','for': 'python' }
     Plug 'skywind3000/asyncrun.vim', {'for': 'python'}
     Plug 'tweekmonster/braceless.vim', {'for': 'python'}
+    " Plug 'Vimjas/vim-python-pep8-indent', { 'for' :['python', 'vim-plug']  }
+    Plug 'Guzzii/python-syntax', {'for' :'python'}
     
-    " Markdown
-    " Plug 'plasticboy/vim-markdown'
-    " Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'   }
-    " Plug 'iamcco/mathjax-support-for-mkdp'
-
     call plug#end()
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                Plug Config                                 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:gruvbox_italic=1
-" colorscheme gruvbox
-" colorscheme one
-" set background=dark
-" let g:one_allow_italics = 1
-let g:seoul256_background = 234
-colo seoul256
-
-"调试python
-nnoremap <F10> :call CompileRunGcc()<cr>
-func! CompileRunGcc()
-          exec "w"
-          if &filetype == 'python'
-                  if search("@profile")
-                          exec "AsyncRun kernprof -l -v %"
-                          exec "copen"
-                          exec "wincmd p"
-                  elseif search("set_trace()")
-                          exec "!python %"
-                  else
-                          exec "AsyncRun -raw python %"
-                          exec "copen"
-                          exec "wincmd p"
-                  endif
-          endif
-
-endfunc
-" 任务结束时候响铃提醒
-let g:asyncrun_bell = 1
-
-"eleline状态栏
-"启用powerline字体
-" let g:eleline_powerline_fonts = 1
-let g:spaceline_seperate_style= 'arrow-fade'
-
-"彩色括号
-let g:rbpt_colorpairs = [
-    \ ['brown', 'RoyalBlue3'],
-    \ ['Darkblue', 'SeaGreen3'],
-    \ ['darkgray', 'DarkOrchid3'],
-    \ ['darkgreen', 'firebrick3'],
-    \ ['darkcyan', 'RoyalBlue3'],
-    \ ['darkred', 'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown', 'firebrick3'],
-    \ ['gray', 'RoyalBlue3'],
-    \ ['black', 'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue', 'firebrick3'],
-    \ ['darkgreen', 'RoyalBlue3'],
-    \ ['darkcyan', 'SeaGreen3'],
-    \ ['darkred', 'DarkOrchid3'],
-    \ ['red', 'firebrick3'],
-    \ ]
-let g:rbpt_max = 8
-let g:rbpt_loadcmd_toggle = 0
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-au Syntax * RainbowParenthesesLoadChevrons
-
-"缩进线
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-let g:indentLine_enabled = 1
 
 """按键映射"""
 
@@ -200,7 +131,10 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 " 复制当前选中到系统剪切板
-vmap <leader><leader>y "+y
+vmap Y "+y
+
+" Search
+noremap <LEADER><CR> :nohlsearch<CR>
 
 " Indentation
 nnoremap < <<
@@ -211,9 +145,6 @@ imap <C-A> <Home>
 imap <C-E> <End>
 inoremap <c-d> <del>
 
-" tabular
-nnoremap <leader>= :Tab /=<cr>
-
 "代码格式化
 nnoremap <leader><leader>= :0,$!yapf<CR>
 
@@ -221,6 +152,64 @@ nnoremap <leader><leader>= :0,$!yapf<CR>
 nnoremap <leader><leader>i :PlugInstall<cr>
 nnoremap <leader><leader>u :PlugUpdate<cr>
 nnoremap <leader><leader>c :PlugClean<cr>
+
+" color
+set termguicolors
+let g:seoul256_background = 234
+colo seoul256
+
+" 禁止内置插件
+let g:loaded_2html_plugin = 1
+let g:loaded_getscriptPlugin = 1
+let g:loaded_gzip = 1
+let g:loaded_logipat = 1
+let g:loaded_matchparen = 1
+let g:loaded_netrwPlugin = 1
+let g:loaded_spellfile_plugin = 1
+let g:loaded_tarPlugin = 1
+let g:loaded_vimballPlugin = 1
+let g:loaded_zipPlugin = 1
+
+"" 调试python
+nnoremap <F10> :call CompileRunGcc()<cr>
+func! CompileRunGcc()
+          exec "w"
+          if &filetype == 'python'
+                  if search("@profile")
+                          exec "AsyncRun kernprof -l -v %"
+                          exec "copen"
+                          exec "wincmd p"
+                  elseif search("set_trace()")
+                          exec "!python %"
+                  else
+                          exec "AsyncRun -raw python %"
+                          exec "copen"
+                          exec "wincmd p"
+                  endif
+          endif
+
+endfunc
+" 任务结束时候响铃提醒
+let g:asyncrun_bell = 1
+
+" eleline
+let g:eleline_powerline_fonts = 1
+
+
+"彩色括号
+" Activation based on file type
+augroup rainbow_lisp
+      autocmd!
+        autocmd FileType lisp,clojure,python,scheme RainbowParentheses
+augroup END
+let g:rainbow#max_level = 16
+let g:rainbow#pairs = [['(', ')'], ['[', ']']]
+" List of colors that you do not want. ANSI code or #RRGGBB
+let g:rainbow#blacklist = [233, 234]
+
+"缩进线
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_enabled = 1
 
 
 """""""""""""""""""
@@ -265,14 +254,6 @@ function! CocTimerStart(timer)
     endfunction
     call timer_start(500,'CocTimerStart',{'repeat':1})
 
-""""""""""""""
-"  floaterm  "
-""""""""""""""
-" F12在当前文件目录下呼出终端
-" let g:floaterm_keymap_toggle = '<F12>'
-" let g:floaterm_background='black'
-" let g:floaterm_position='center'
-
 " Braceless
 autocmd FileType python BracelessEnable +indent
 let g:python_highlight_all = 1
@@ -285,23 +266,12 @@ let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
 " Startify
 let g:startify_bookmarks = [{'E': '$HOME\AppData\Local\nvim\init.vim'},{'F': '$HOME\AppData\Local\nvim\ginit.vim'}]
+" Open Startify
+noremap <LEADER>st :Startify<CR>
 
 " prepare-code
 let g:prepare_code_plugin_path = expand($VIM . "/plugged/prepare-code")
 
-"""""""""""""""
-"  vim-slash  "
-"""""""""""""""
-" noremap <plug>(slash-after) zz
-
-
-""""""""""""""""""""""
-"  Markdown-preview  "
-""""""""""""""""""""""
-" let g:mkdp_echo_preview_url = 1
-" let g:mkdp_browser = "C://Program Files (x86)//Google//Chrome//Application//chrome.exe"
-" nmap <C-s> <Plug>MarkdownPreview
-" nmap <M-s> <Plug>MarkdownPreviewStop
 
 """"""""""
 "  defx  "
@@ -345,10 +315,17 @@ nnoremap <F12> :Nuake<CR>
 inoremap <F12> <C-\><C-n>:Nuake<CR>
 tnoremap <F12> <C-\><C-n>:Nuake<CR>
 
+"semshi
+let g:semshi#update_delay_factor=0.0001
 
-" Repl
-" nnoremap <leader>r :REPLToggle<Cr>
-" let g:repl_program = {
-"             \'python': 'ipython',
-"             \'default': 'pwsh'
-"             \}
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" vim-better-whitespace
+let g:better_whitespace_enabled=1
+let g:current_line_whitespace_disabled_soft=1
+let g:strip_max_file_size = 1000
+let g:strip_whitespace_confirm=0
+autocmd FileType python EnableStripWhitespaceOnSave
