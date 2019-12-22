@@ -303,11 +303,6 @@ let g:prepare_code_plugin_path = expand($VIM . "/plugged/prepare-code")
 
 " autocmd FileType defx call s:defx_mappings()
 
-""""""""""""""""
-"  easymotion  "
-""""""""""""""""
-" map <Leader> <Plug>(easymotion-prefix)
-
 """""""""""
 "  Nuake  "
 """""""""""
