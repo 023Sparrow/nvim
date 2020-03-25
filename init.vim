@@ -190,9 +190,6 @@ nnoremap <leader><leader>c :PlugClean<cr>
 "  Color  "
 """""""""""
 set termguicolors
-" let g:seoul256_background = 234
-" colo seoul256
-" Terminal Background
 let g:jellybeans_overrides = {
             \    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
             \}
